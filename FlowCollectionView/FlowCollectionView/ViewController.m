@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 #import "WaveCollectionViewFlowLayout.h"
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, WaveCollectionViewFlowLayoutDataSource>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, WaveCollectionViewFlowLayoutDataSource>{
+    int numberOfItems;
+}
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
@@ -19,7 +21,24 @@
     [super viewDidLoad];
     [(WaveCollectionViewFlowLayout *)self.collectionView.collectionViewLayout setFlowDynamic:YES];
     [(WaveCollectionViewFlowLayout *)self.collectionView.collectionViewLayout setDataSource:self];
+    numberOfItems = 0;
+    
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.collectionView performBatchUpdates:^{
+        numberOfItems = 20;
+        NSMutableArray *insertIndexPaths = [NSMutableArray array];
+        for (int i = 0; i < numberOfItems; i++) {
+            NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+            [insertIndexPaths addObject:path];
+        }
+        [self.collectionView insertItemsAtIndexPaths:insertIndexPaths];
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,16 +49,16 @@
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 3;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 20;
+    return numberOfItems;
 }
 
 -(NSUInteger)collectionView:(UICollectionView *)theCollectionView layout:(WaveCollectionViewFlowLayout *)layout numberOfColumnsInSection:(NSUInteger)theSection{
-    return 5;
+    return 4;
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -51,7 +70,7 @@
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 10.0f;
+    return 20.0f;
 }
 
 
