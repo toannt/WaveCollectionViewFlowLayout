@@ -23,8 +23,6 @@
     NSMutableArray *_headerFooterAttributes;
     NSMutableArray *_dynamicIndexPaths;
     CGSize _contentSize;
-    
-    
 }
 
 @end
@@ -78,11 +76,15 @@
 }
 
 - (void)prepareDynamicsLayout{
-    CGRect visibleRect = CGRectInset((CGRect){.origin = self.collectionView.bounds.origin, .size = self.collectionView.frame.size}, -100, -100);
+//    CGRect visibleRect = CGRectInset((CGRect){.origin = self.collectionView.bounds.origin, .size = self.collectionView.frame.size}, -100, -100);
+    CGRect bounds = self.collectionView.bounds;
+    CGRect visibleRect = CGRectMake(bounds.origin.x, bounds.origin.y - bounds.size.height/2, bounds.size.width, 2 * bounds.size.height);
     
     NSArray *visibleItemAttributes = [_itemAttributes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UICollectionViewLayoutAttributes *evaluatedObject, NSDictionary *bindings) {
         return CGRectIntersectsRect(visibleRect, evaluatedObject.frame);
     }]];
+  
+//    NSArray *visibleItemAttributes = _itemAttributes;
     
     NSArray *visibleItemIndexPaths = [visibleItemAttributes valueForKey:@"indexPath"];
     
@@ -107,7 +109,7 @@
         UIAttachmentBehavior *attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:obj attachedToAnchor:center];
         attachmentBehavior.length = 0.0f;
         attachmentBehavior.damping = 2.0f;
-        attachmentBehavior.frequency = 1.0f;
+        attachmentBehavior.frequency = 2.0f;
 
         if (!CGPointEqualToPoint(CGPointZero, touchLocation)) {
             CGFloat distanceFromTouch = fabsf(touchLocation.y - attachmentBehavior.anchorPoint.y);
@@ -201,10 +203,10 @@
     NSArray *array =  [_animator itemsInRect:rect];
     return array;
 }
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return [_animator layoutAttributesForCellAtIndexPath:indexPath];
-    return [super layoutAttributesForItemAtIndexPath:indexPath];
-}
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
+////    return [_animator layoutAttributesForCellAtIndexPath:indexPath];
+//    return [super layoutAttributesForItemAtIndexPath:indexPath];
+//}
 
 //- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 //{

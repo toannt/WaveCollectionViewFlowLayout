@@ -29,7 +29,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.collectionView performBatchUpdates:^{
-        numberOfItems = 20;
+        numberOfItems = 100;
         NSMutableArray *insertIndexPaths = [NSMutableArray array];
         for (int i = 0; i < numberOfItems; i++) {
             NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
@@ -58,11 +58,11 @@
 }
 
 -(NSUInteger)collectionView:(UICollectionView *)theCollectionView layout:(WaveCollectionViewFlowLayout *)layout numberOfColumnsInSection:(NSUInteger)theSection{
-    return 4;
+    return 3;
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(50, 50);
+    return CGSizeMake(100, 100);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
